@@ -1,7 +1,7 @@
-from django.urls import path
+from django.urls import path # type: ignore
 
 from . import views
-from django.conf.urls.static import static
+from django.conf.urls.static import static # type: ignore
 
 urlpatterns = [
       
@@ -15,5 +15,5 @@ urlpatterns = [
 
     path('login/', views.login, name='login'),
 
-    path('signin/', views.signin, name='signin'),
+   path('signup/', views.signup, name='signup'),
 ]
