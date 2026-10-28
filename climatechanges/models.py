@@ -1,7 +1,7 @@
-from django.db import models
+from django.db import models # type: ignore
 import datetime
-from django.utils import timezone
-from django.contrib.auth.models import User
+from django.utils import timezone # type: ignore
+from django.contrib.auth.models import User # type: ignore
 # Create your models here.
 
 class Customer(models.Model):
