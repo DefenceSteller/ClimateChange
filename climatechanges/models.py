@@ -17,5 +17,11 @@ class Customer(models.Model):
     country = models.CharField(max_length=50, null=True)
     zip_code = models.CharField(max_length=10, null=True)
 
+    user=models.ForeignKey(
+                User, 
+                on_delete=models.CASCADE,
+                default=1
+            )
+
     def __str__(self):
         return f"{self.id}:{self.full_name}:{self.username}"

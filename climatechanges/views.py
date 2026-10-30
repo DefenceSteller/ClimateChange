@@ -1,5 +1,7 @@
 from django.shortcuts import render
 
+from climatechanges import models
+
 # Create your views here.
 def index(request):
     return render(request, "climatechanges/index.html")
@@ -17,6 +19,7 @@ def login(request):
 from django.shortcuts import render, redirect 
 from django.contrib.auth.hashers import make_password # Correct 
 from .models import Customer
+from django.contrib.auth.models import User
 
 def signup(request):
     if request.method == 'POST':
@@ -31,13 +34,16 @@ def signup(request):
         country = request.POST.get('country')
         zip_code = request.POST.get('zip_code')
 
+       
+
         # Basic validation
         if password != password_confirm:
-            return render(request, 'signup.html', {'error': 'Passwords do not match'})
+            return render(request, 'climatechanges/signup.html', {'error': 'Passwords do not match'})
 
         if Customer.objects.filter(username=username).exists():
-            return render(request, 'signup.html', {'error': 'Username already taken'})
-
+            return render(request, 'climatechanges/signup.html', {'error': 'Username already taken'})
+        
+        user=User.objects.create(username=username, password=password, email=email, first_name=full_name)
         # Save customer securely with a hashed password
         Customer.objects.create(
             username=username,
@@ -48,8 +54,15 @@ def signup(request):
             city=city,
             state=state,
             country=country,
-            zip_code=zip_code
+            zip_code=zip_code,
+            user=user
         )
-        return redirect('login') # Redirect to your login page URL name
 
-    return render(request, 'climatechanges/signup.html')
+       
+
+    context={
+            'msg': "Account created successfully! Please log in."
+        }
+        #return redirect('login') # Redirect to your login page URL name
+
+    return render(request, 'climatechanges/signup.html', context)
